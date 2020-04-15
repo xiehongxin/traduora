@@ -34,7 +34,7 @@ export const androidXmlParser: Parser = async (data: string) => {
 
 export const androidXmlExporter: Exporter = async (data: IntermediateTranslationFormat) => {
   const strings = data.translations.map(translation => ({
-    _attributes: { name: translation.term },
+    _attributes: { name: spotToUnderline(translation.term) },
     _text: escape(translation.translation),
   }));
   return xmlJs.js2xml(
@@ -54,4 +54,8 @@ function unescape(str: string): string {
 
 function escape(str: string): string {
   return str.replace(/([\'@"\?])/g, '\\$1');
+}
+
+function spotToUnderline(str: string): string {
+  return str.replace('.', '_')
 }
